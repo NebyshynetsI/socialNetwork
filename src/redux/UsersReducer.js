@@ -1,3 +1,4 @@
+import { usersAPI, followerAPI } from "../api/api";
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -108,5 +109,43 @@ export const setFollowingButtonStatus = (followingIsDisabled, userId) => ({
 
 });
 
+export const getUsers = (activePage, pageSize) => {
+    return (dispatch) => {
+        dispatch(setFetchingStatus(true));
+        dispatch(setActivePage(activePage));
+        usersAPI.getUsers(activePage, pageSize).then(data => {
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount))
+            setTimeout(() =>
+                dispatch(setFetchingStatus(false)
+                    , 2000));
+        });;
+    }
+}
 
+export const followUser = (userId) => {
+    return (dispatch) => {
+    dispatch(setFollowingButtonStatus(true, userId)); 
+    followerAPI.followUser(userId)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(follow(userId));
+            }
+            dispatch(setFollowingButtonStatus(false, userId)); 
+        });
+    }
+}
+
+export const unfollowUser = (userId) => {
+    return (dispatch) => {
+    dispatch(setFollowingButtonStatus(true, userId)); 
+    followerAPI.unfollowUser(userId)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unfollow(userId));
+            }
+            dispatch(setFollowingButtonStatus(false, userId)); 
+        });
+    }
+}
 export default usersReducer;

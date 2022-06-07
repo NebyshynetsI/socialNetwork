@@ -26,14 +26,16 @@ let Users = (props) => {
                         </div>
                         <div>
                             {u.followed
-                                ? <button disabled={props.followingIsDisabled.some(id=>id===u.id)} onClick={(e) => {
-                                    props.onUnfollowButtonClick(u.id);
-                                }
-                                }> Unfollow</button>
-                                : <button disabled={props.followingIsDisabled.some(id=>id===u.id)} onClick={(e) => {                                   
-                                    props.onFollowButtonClick(u.id)
-                                }
-                                }> Follow</button>}
+                                ? <button disabled={props.followingIsDisabled.some(id => id === u.id)}
+                                    onClick={(e) => {
+                                        props.onUnfollowButtonClick(u.id);
+                                    }
+                                    }> Unfollow</button>
+                                : <button disabled={props.followingIsDisabled.some(id => id === u.id)}
+                                    onClick={(e) => {
+                                        props.onFollowButtonClick(u.id)
+                                    }
+                                    }> Follow</button>}
                         </div>
                     </span>
                     <span>

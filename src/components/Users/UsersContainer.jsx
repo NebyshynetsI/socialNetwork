@@ -1,54 +1,27 @@
 import {connect} from 'react-redux';
-import { follow, unfollow, setUsers, setActivePage, setTotalUsersCount, setFetchingStatus, setFollowingButtonStatus} from '../../redux/UsersReducer';
+import { follow, unfollow, setUsers, setActivePage, setTotalUsersCount, setFetchingStatus, followUser, unfollowUser, getUsers} from '../../redux/UsersReducer';
 import React from "react";
 import Users from "./Users";
 import Preloader from '../common/Preloader/Preloader';
-import { followerAPI, usersAPI } from '../../api/api';
+import { followerAPI } from '../../api/api';
 
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        usersAPI.getUsers(this.props.activePage, this.props.pageSize).then(data => {
-            this.props.setFetchingStatus(true);
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount)
-            setTimeout(() =>
-                this.props.setFetchingStatus(false)
-                , 2000);
-        });;
+        this.props.getUsers(this.props.activePage, this.props.pageSize);
     };
 
     onPageClick = (p) => {
-        this.props.setActivePage(p);
-        this.props.setFetchingStatus(true);
-        usersAPI.getUsers(p, this.props.pageSize)
-            .then(data => {
-                this.props.setUsers(data.items);
-                this.props.setFetchingStatus(false);
-            });
+        this.props.getUsers(p, this.props.pageSize)
     };
 
     onFollowButtonClick = (userId) => {
-        this.props.setFollowingButtonStatus(true, userId); 
-        followerAPI.followUser(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    this.props.follow(userId);
-                }
-                this.props.setFollowingButtonStatus(false, userId); 
-            });
+        this.props.followUser(userId);
     }
 
     onUnfollowButtonClick = (userId) => {
-        this.props.setFollowingButtonStatus(true, userId); 
-        followerAPI.unfollowUser(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    this.props.unfollow(userId);
-                }
-                this.props.setFollowingButtonStatus(false, userId); 
-            });
+        this.props.unfollowUser(userId);
     }
 
     render() {
@@ -104,14 +77,9 @@ const mapDispatchToProps = (dispatch)=>{
 };
 
 let dispatchObjs = {
-    follow,
-    unfollow,
-    setUsers,
-    setActivePage,
-    setTotalUsersCount,
-    setFetchingStatus,
-    setFollowingButtonStatus
+    getUsers,
+    followUser,
+    unfollowUser
 }
-
 
 export default connect(mapStateToProps,dispatchObjs)(UsersContainer); 
