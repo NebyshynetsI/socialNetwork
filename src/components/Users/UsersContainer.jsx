@@ -16,14 +16,6 @@ class UsersContainer extends React.Component {
         this.props.getUsers(p, this.props.pageSize)
     };
 
-    onFollowButtonClick = (userId) => {
-        this.props.followUser(userId);
-    }
-
-    onUnfollowButtonClick = (userId) => {
-        this.props.unfollowUser(userId);
-    }
-
     render() {
         return <>
             {this.props.isFetching === true ? <Preloader /> : null}
@@ -31,11 +23,10 @@ class UsersContainer extends React.Component {
                 pageSize={this.props.pageSize}
                 activePage={this.props.activePage}
                 onPageClick={this.onPageClick}
-                onFollowButtonClick={this.onFollowButtonClick}
-                onUnfollowButtonClick={this.onUnfollowButtonClick}
+                followUser={this.props.followUser}
+                unfollowUser={this.props.unfollowUser}
                 followingIsDisabled={this.props.followingIsDisabled}
-                userList={this.props.userList}
-                setFollowingButtonStatus={this.props.setFollowingButtonStatus}/>
+                userList={this.props.userList}/>
         </>
     };
 }
