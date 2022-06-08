@@ -1,17 +1,19 @@
-import {connect} from 'react-redux';
-import { follow, unfollow, setUsers, setActivePage, setTotalUsersCount, setFetchingStatus, followUser, unfollowUser, getUsers} from '../../redux/UsersReducer';
+import { connect } from 'react-redux';
+import { follow, unfollow, setUsers, setActivePage, setTotalUsersCount, setFetchingStatus, followUser, unfollowUser, getUsers } from '../../redux/UsersReducer';
 import React from "react";
 import Users from "./Users";
 import Preloader from '../common/Preloader/Preloader';
-import { useParams, useLocation} from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import { withAuthRedirect } from '../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
-export function withRouter(Children){
-    return(props)=>{
-       const match  = {params: useParams()};
-       const location  = {location: useLocation()};
-       return <Children {...props}  match = {match} location={location} />
-   }
- }
+export function withRouter(Children) {
+    return (props) => {
+        const match = { params: useParams() };
+        const location = { location: useLocation() };
+        return <Children {...props} match={match} location={location} />
+    }
+}
 
 class UsersContainer extends React.Component {
 
@@ -33,13 +35,13 @@ class UsersContainer extends React.Component {
                 followUser={this.props.followUser}
                 unfollowUser={this.props.unfollowUser}
                 followingIsDisabled={this.props.followingIsDisabled}
-                userList={this.props.userList}/>
+                userList={this.props.userList} />
         </>
     };
 }
 
-const mapStateToProps = (state)=>{
-    return{         
+const mapStateToProps = (state) => {
+    return {
         userList: state.usersPage.usersList,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
@@ -49,25 +51,25 @@ const mapStateToProps = (state)=>{
     }
 };
 
-const mapDispatchToProps = (dispatch)=>{
-    return{
-        follow: (userId)=>{
+const mapDispatchToProps = (dispatch) => {
+    return {
+        follow: (userId) => {
             dispatch(follow(userId));
         },
 
-        unfollow: (userId)=>{
+        unfollow: (userId) => {
             dispatch(unfollow(userId));
         },
-        setUsers: (users)=>{
+        setUsers: (users) => {
             dispatch(setUsers(users))
         },
-        setActivePage: (activePageId)=>{
+        setActivePage: (activePageId) => {
             dispatch(setActivePage(activePageId))
         },
-        setTotalUsersCount: (totalUsersCount)=>{
+        setTotalUsersCount: (totalUsersCount) => {
             dispatch(setTotalUsersCount(totalUsersCount))
         },
-        setFetchingStatus: (status)=>{
+        setFetchingStatus: (status) => {
             dispatch(setFetchingStatus(status))
         }
 
@@ -80,6 +82,4 @@ let dispatchObjs = {
     unfollowUser
 }
 
-let withUrlUsersContainerComponent = withRouter(UsersContainer);
-
-export default connect(mapStateToProps,dispatchObjs)(withUrlUsersContainerComponent); 
+export default compose(connect(mapStateToProps, dispatchObjs), withAuthRedirect, withRouter)(UsersContainer);
