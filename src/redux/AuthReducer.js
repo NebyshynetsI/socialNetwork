@@ -30,7 +30,7 @@ export const setAuthUserData = (userId, email, login) => {
     }
 };
 
-export const makeAuth = () =>{
+export const getAuthUserData = () =>{
     return (dispatch) => {
         authAPI.makeAuth().then(data => {
             if (data.resultCode === 0) {

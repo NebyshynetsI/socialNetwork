@@ -3,8 +3,15 @@ import { follow, unfollow, setUsers, setActivePage, setTotalUsersCount, setFetch
 import React from "react";
 import Users from "./Users";
 import Preloader from '../common/Preloader/Preloader';
-import { followerAPI } from '../../api/api';
+import { useParams, useLocation} from 'react-router-dom';
 
+export function withRouter(Children){
+    return(props)=>{
+       const match  = {params: useParams()};
+       const location  = {location: useLocation()};
+       return <Children {...props}  match = {match} location={location} />
+   }
+ }
 
 class UsersContainer extends React.Component {
 
@@ -73,4 +80,6 @@ let dispatchObjs = {
     unfollowUser
 }
 
-export default connect(mapStateToProps,dispatchObjs)(UsersContainer); 
+let withUrlUsersContainerComponent = withRouter(UsersContainer);
+
+export default connect(mapStateToProps,dispatchObjs)(withUrlUsersContainerComponent); 

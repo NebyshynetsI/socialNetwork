@@ -14,6 +14,7 @@ import './index'
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
+import LoginContainer from './components/Login/LoginContainer';
 
 function App(props) {
   return (
@@ -24,12 +25,16 @@ function App(props) {
       {/* <Sidebar state={props.state.sidebar.friends} /> */}
       <div className='app-wrapper-content'>
         <Routes>
+          <Route path='/login'
+          element={<LoginContainer/>}/>
           <Route path='/dialogs/*'
             element={<DialogsContainer />} /> 
           <Route path='/profile/:userId'
             element={<ProfileContainer />} />
             <Route path='/profile/'
             element={<ProfileContainer />} />
+             <Route path='/users/:userId'
+            element={<UsersContainer />} />
           <Route path='/users'
             element={<UsersContainer />} />
           <Route path='/news' element={<News />} />
