@@ -3,6 +3,7 @@ import { profileAPI } from "../api/api";
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_USER_STATUS = 'SET_USER_STATUS';
 
 let initialState = {
   posts: [
@@ -10,7 +11,8 @@ let initialState = {
     { id: 2, message: "It's my first post!", likesCount: '15' },
   ],
   newPostText: 'sobaka pisala',
-  profile: null
+  profile: null,
+  status: 'Gav gav gav! o-pppa, Sobaka-style'
 };
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -35,6 +37,14 @@ const profileReducer = (state = initialState, action) => {
             profile: action.profile
           }
         }
+    case SET_USER_STATUS:
+      {
+        return {
+          ...state,
+          status: action.status
+        }
+      }
+
     default:
       return state;
   }
@@ -61,6 +71,13 @@ export const setUserProfile = (profile) => {
     profile
   }
 
+}
+
+export const setUserStatus = (status) => {
+  return{
+    type: SET_USER_STATUS,
+    status
+  }
 }
 
 export const getProfile = (userId) => {

@@ -1,0 +1,15 @@
+.statusArea{
+    background-color: white;    
+    width: fit-content;
+    margin: 5px;
+    padding: 5px;
+}
+
+.statusArea span{
+    color: black;  
+}
+.statusArea input{
+    background-color: aqua;
+    color:black;
+    width: fit-content;
+}
