@@ -4,6 +4,7 @@ const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_STATUS = 'SET_USER_STATUS';
+const UPDATE_USER_STATUS ='UPDATE_USER_STATUS';
 
 let initialState = {
   posts: [
@@ -12,7 +13,7 @@ let initialState = {
   ],
   newPostText: 'sobaka pisala',
   profile: null,
-  status: 'Gav gav gav! o-pppa, Sobaka-style'
+  status: ''
 };
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -44,6 +45,13 @@ const profileReducer = (state = initialState, action) => {
           status: action.status
         }
       }
+      case UPDATE_USER_STATUS:
+        {
+          return{
+            ...state,
+            status:action.status
+          }
+        }
 
     default:
       return state;
@@ -73,9 +81,18 @@ export const setUserProfile = (profile) => {
 
 }
 
-export const setUserStatus = (status) => {
+
+
+export const setStatus = (status) => {
   return{
     type: SET_USER_STATUS,
+    status
+  }
+}
+
+export const updateStatus = (status) => {
+  return{
+    type: UPDATE_USER_STATUS,
     status
   }
 }
@@ -84,6 +101,24 @@ export const getProfile = (userId) => {
   return (dispatch) => {
     profileAPI.getProfile(userId).then(response => {
       dispatch(setUserProfile(response.data));
+    });
+  }
+}
+
+export const getUserStatus = (userId) => {
+  return (dispatch) => {
+    profileAPI.getStatus(userId).then(response => {
+      dispatch(setStatus(response.data));
+    });
+  }
+}
+
+export const updateUserStatus = (status) => {
+  return (dispatch) => {
+    profileAPI.updateStatus(status).then(response => {
+      if(response.data.resultCode === 0){
+        dispatch(setStatus(status));
+      }      
     });
   }
 }

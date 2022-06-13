@@ -1,6 +1,4 @@
-.statusArea{
-    background-color: white;    
-    width: fit-content;
+.statusArea{  
     margin: 5px;
     padding: 5px;
 }
@@ -9,7 +7,6 @@
     color: black;  
 }
 .statusArea input{
-    background-color: aqua;
+    background-color: white;
     color:black;
-    width: fit-content;
 }
